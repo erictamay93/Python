@@ -34,4 +34,54 @@ Classes podem conter:
     
 Para definirmos uma classe me python usamos a palavra reservada 'class' 
 
+OBS: classes sao objetos
+
 """
+#------------------------------------------------------------------------------------------------------------------------------------
+"""
+POO: Atributos
+Atributos representam as características de um projeto. Ou seja, pelos atributos 
+nós conseguimos representar  computaconalmete os  estados de um onjeto.
+
+Em python, dividios os atributos em 3 grupos:
+    - Atributos de instancia;
+    - Atributos de classe;
+    - Atributos dinamicos;
+
+# Atributos de instancia:
+    São atributos declarados dentro do método construtor.
+    __ -> indica que o atributo é private
+    self -> É o objeto que está usando o método
+    
+# Atributos publicos e privados: 
+    - Atributos privados so podem ser acessados na propria classe 
+    - Por converção todos atributos são publicos 
+"""
+#print(help(list)) para consultas
+
+class Lampada:
+    def __init__(self, voltagem,cor):
+        self.__voltagem = voltagem # esta linha indica que o objeto Lampada no atributo Voltagem vai receber voltagem
+        self.__cor = cor
+        self.__ligada = False
+
+class ContaCorrente:
+    def __init__(self,numero, limite, saldo):
+        self.numero = numero
+        self.limite = limite
+        self.saldo = saldo
+
+class Produto:
+    def __init__(self, nome, descricao, valor):
+        self.nome = nome
+        self.descricao = descricao
+        self.valor = valor
+
+class Usuario:
+    def __init__(self,nome, email, senha):
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+
+if __name__ == '__main__':
+    pass
