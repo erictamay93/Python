@@ -63,6 +63,12 @@ Em python, dividios os atributos em 3 grupos:
     geralmente já iniciamos um valor, e este valor é compartilhado entre todas as instancias da classe.
     Ou seja, ao invés de cada  instância da classe ter seus próprios valores como é o caso dos atributos de 
     instâncias, como os atributos de classe todas as instâncias terão o mesmo valor para o atributo.   
+
+# Atributos Dinamicos
+    - Um atributo de instância que pode ser criado em tempo de execução, mas o atributo dinamico será exclusivo
+    da instância que o criou.
+    
+
 """
 #print(help(list)) para consultas
 
@@ -85,7 +91,7 @@ class Usuario:
         self.senha = senha
 
 class Produto:
-    imposto = 1.05
+    imposto = 1.05 # Em java atributos de classe são os atributos estaticos
     cont = 0
     def __init__(self, nome, descricao, valor):
         self.id = Produto.cont +1
@@ -95,4 +101,7 @@ class Produto:
         Produto.cont = self.id
 
 if __name__ == '__main__':
-    pass
+    p1 = Produto("Playstation 4","video-game",13000)
+    p1.peso = "800g" # <- atributo de instancia!
+    print(p1.__dict__) # <- retorna todos os atributos na forma de um dicionario.
+    # o comando 'del' deleta atributos dinamicamente.
