@@ -50,12 +50,19 @@ Em python, dividios os atributos em 3 grupos:
 
 # Atributos de instancia:
     São atributos declarados dentro do método construtor.
+    - Ao criarmos instâncias/Objetos de uma classe , todas as intâncias terão esses atributos. 
     __ -> indica que o atributo é private
     self -> É o objeto que está usando o método
     
 # Atributos publicos e privados: 
     - Atributos privados so podem ser acessados na propria classe 
-    - Por converção todos atributos são publicos 
+    - Por converção todos atributos são publicos
+
+# Atributos de Classe
+    - São atributos declarados diretamente na classe, ou seja, fora do método construtor.
+    geralmente já iniciamos um valor, e este valor é compartilhado entre todas as instancias da classe.
+    Ou seja, ao invés de cada  instância da classe ter seus próprios valores como é o caso dos atributos de 
+    instâncias, como os atributos de classe todas as instâncias terão o mesmo valor para o atributo.   
 """
 #print(help(list)) para consultas
 
@@ -71,17 +78,21 @@ class ContaCorrente:
         self.limite = limite
         self.saldo = saldo
 
-class Produto:
-    def __init__(self, nome, descricao, valor):
-        self.nome = nome
-        self.descricao = descricao
-        self.valor = valor
-
 class Usuario:
     def __init__(self,nome, email, senha):
         self.nome = nome
         self.email = email
         self.senha = senha
+
+class Produto:
+    imposto = 1.05
+    cont = 0
+    def __init__(self, nome, descricao, valor):
+        self.id = Produto.cont +1
+        self.nome = nome
+        self.descricao = descricao
+        self.valor = (valor * Produto.imposto)
+        Produto.cont = self.id
 
 if __name__ == '__main__':
     pass
