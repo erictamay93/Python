@@ -70,6 +70,18 @@ Em python, dividios os atributos em 3 grupos:
     
 
 """
+#----------------------------------------------------------------------------------------------------------------------
+
+"""
+POO - Métodos
+-Meétodos(funções) -> representam os comportamentos do objeto. ou seja, as ações que este objeto poder realizar
+no seu sitema.
+
+Em python dividimos os métodos em:
+
+# Métodos de instância
+
+"""
 #print(help(list)) para consultas
 
 class Lampada:
