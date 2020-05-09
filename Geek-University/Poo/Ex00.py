@@ -72,6 +72,43 @@ Em python, dividios os atributos em 3 grupos:
 """
 #----------------------------------------------------------------------------------------------------------------------
 
+
+#print(help(list)) para consultas
+
+#class Lampada:
+#    def __init__(self, voltagem,cor):
+#        self.__voltagem = voltagem # esta linha indica que o objeto Lampada no atributo Voltagem vai receber voltagem
+#        self.__cor = cor
+#        self.__ligada = False
+#
+#class ContaCorrente:
+#    def __init__(self,numero, limite, saldo):
+#        self.numero = numero
+#        self.limite = limite
+#        self.saldo = saldo
+#
+#class Usuario:
+#    def __init__(self,nome, email, senha):
+#        self.nome = nome
+#        self.email = email
+#       self.senha = senha
+
+#class Produto:
+#    imposto = 1.05 # Em java atributos de classe são os atributos estaticos
+#    cont = 0
+#    def __init__(self, nome, descricao, valor):
+#        self.id = Produto.cont +1
+#        self.nome = nome
+#        self.descricao = descricao
+#        self.valor = (valor * Produto.imposto)
+#        Produto.cont = self.id
+
+#if __name__ == '__main__':
+#    p1 = Produto("Playstation 4","video-game",13000)
+#    p1.peso = "800g" # <- atributo de instancia!
+#    print(p1.__dict__) # <- retorna todos os atributos na forma de um dicionario.
+#    # o comando 'del' deleta atributos dinamicamente.
+
 """
 POO - Métodos
 -Meétodos(funções) -> representam os comportamentos do objeto. ou seja, as ações que este objeto poder realizar
@@ -80,40 +117,53 @@ no seu sitema.
 Em python dividimos os métodos em:
 
 # Métodos de instância
+-> O método dunder init __init__ é um método especial chamado de construtor e 
+sua função é construir o objeto a partir da classe.
 
+OBS: todo método em python que inicia e finaliza com duplo underline é chamdo de dunder (double Underline)
+OBS: os métodos/funções dunder em python são chamdos de métodos mágicos.
+ATENÇÂO: Não é aconselhado usar dunder em seus métodos, pois pode intereferir nas funções internas do python
 """
-#print(help(list)) para consultas
-
 class Lampada:
-    def __init__(self, voltagem,cor):
-        self.__voltagem = voltagem # esta linha indica que o objeto Lampada no atributo Voltagem vai receber voltagem
+    def __init__(self, cor, voltagem, luminosidade):
         self.__cor = cor
-        self.__ligada = False
+        self.__voltagem = voltagem
+        self.__luminosidade = luminosidade
+        self.ligada = False
 
 class ContaCorrente:
-    def __init__(self,numero, limite, saldo):
-        self.numero = numero
-        self.limite = limite
-        self.saldo = saldo
 
-class Usuario:
-    def __init__(self,nome, email, senha):
-        self.nome = nome
-        self.email = email
-        self.senha = senha
+    contador = 1234
+    def __init__(self, limite, saldo):
+        self.__numero = ContaCorrente.contador +1
+        self.__limite = limite
+        self.saldo = saldo
+        ContaCorrente.contador = self.__numero
 
 class Produto:
-    imposto = 1.05 # Em java atributos de classe são os atributos estaticos
-    cont = 0
+    contador = 0
     def __init__(self, nome, descricao, valor):
-        self.id = Produto.cont +1
-        self.nome = nome
-        self.descricao = descricao
-        self.valor = (valor * Produto.imposto)
-        Produto.cont = self.id
+        self.__id = Produto.contador +1
+        self.__nome = nome
+        self.__descricao = descricao
+        self.__valor = valor
+        Produto.contador = self.__id
 
-if __name__ == '__main__':
-    p1 = Produto("Playstation 4","video-game",13000)
-    p1.peso = "800g" # <- atributo de instancia!
-    print(p1.__dict__) # <- retorna todos os atributos na forma de um dicionario.
-    # o comando 'del' deleta atributos dinamicamente.
+    def desconto(self, porcentagem):
+        """Retorna o valor do produto com desconto"""
+        return (self.__valor * (100 - porcentagem))/100
+
+class Usuario:
+    def __init__(self, nome,sobrenome, email, senha):
+        self.sobrenome = sobrenome
+        self.__nome = nome
+        self.__email = email
+        self.__senha = senha
+
+    def __correr__(self,metros):
+        print(f'{self.__nome}Estou correndo {metros}')
+
+
+p1 = Produto('Playstation','Videogame',2300)
+
+print(p1.desconto(40))
