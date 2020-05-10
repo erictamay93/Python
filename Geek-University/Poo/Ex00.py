@@ -117,12 +117,25 @@ no seu sitema.
 Em python dividimos os métodos em:
 
 # Métodos de instância
--> O método dunder init __init__ é um método especial chamado de construtor e 
-sua função é construir o objeto a partir da classe.
+    -> O método dunder init __init__ é um método especial chamado de construtor e 
+    sua função é construir o objeto a partir da classe.
 
-OBS: todo método em python que inicia e finaliza com duplo underline é chamdo de dunder (double Underline)
-OBS: os métodos/funções dunder em python são chamdos de métodos mágicos.
-ATENÇÂO: Não é aconselhado usar dunder em seus métodos, pois pode intereferir nas funções internas do python
+    OBS: todo método em python que inicia e finaliza com duplo underline é chamdo de dunder (double Underline)
+    OBS: os métodos/funções dunder em python são chamdos de métodos mágicos.
+    ATENÇÂO: Não é aconselhado usar dunder em seus métodos, pois pode intereferir nas funções internas do python
+
+    OBS: métodos são escritos em letras minusculas e separadas por underline quando compostos.
+
+# Métodos de classe
+    -> Decorador => @classmethod
+    -> Não estão vinculados a auma instancia de classe 
+    -> São conhecidos como métodos estaticos em outras linguagens 
+    -> É idela utilizalos quando a função que desejamos criar não utilizar atributos de instancia 
+    -> Métodos privados só podem ser utilizados dentro da sua propria classe
+
+# Métodos estaticos
+    -> Decorador => @staticmethod
+    -> Não recebe nada em seus parametros
 """
 class Lampada:
     def __init__(self, cor, voltagem, luminosidade):
@@ -153,17 +166,73 @@ class Produto:
         """Retorna o valor do produto com desconto"""
         return (self.__valor * (100 - porcentagem))/100
 
+from passlib.hash import pbkdf2_sha256 as cryp #criptografia char256
+
 class Usuario:
-    def __init__(self, nome,sobrenome, email, senha):
-        self.sobrenome = sobrenome
+    contador = 0
+    @classmethod # e necessario para criar um método de classe
+    def conta_usuarios(cls):# o parametor é a propria classe
+        print(f'Temos {cls.contador} usuario(s) no sistema')
+
+    @staticmethod
+    def definicao():
+        return 'UXR344'
+
+    def __init__(self, nome, sobrenome, email, senha):
+        self.__id = Usuario.contador+1
+        self.__sobrenome = sobrenome
         self.__nome = nome
         self.__email = email
-        self.__senha = senha
+        self.__senha = cryp.hash(senha, rounds=200000, salt_size=16)# qual string sera incriptada, o ronund mostra quantos embaralhamentos seram feitos salt = parte do texto que será juntada
+        Usuario.contador = self.__id
+        print(f'Usuario criado: {self.__gera_usuario()}')
+    def nome_comleto(self):
+        return f'{self.__nome} {self.__sobrenome}'
 
-    def __correr__(self,metros):
-        print(f'{self.__nome}Estou correndo {metros}')
+    #verifica se a senha digitada é igual a senha registrada
+    def checa_senha(self,senha):
+        if cryp.verify(senha, self.__senha):
+            return True
+        return False
+    def __gera_usuario(self):
+        return self.__email.split('@')[0] #quebra a string no ponto desejado e devolve o que estava antes do parametro na posiçãozeroda lista
+
+user = Usuario(f'Felicity','Jones','felicity@gmail.com','12345679')
+
+# MATERIAL DE ESTUDO!
+#nome = input('Informe o nome: ')
+#sobrnome =input('Informe o sobrenome: ')
+#email = input('Informe o email: ')
+#senha = input('Informe a senha: ')
+#confirma_senha = input('Confirme a senha: ')
+#
+#if senha == confirma_senha:
+#    user = Usuario(nome,sobrnome,email, senha)
+#else:
+#    print('Senha não confere...')
+#    exit(42)
+
+#print('Usuario criado com sucesso!')
+
+#senha = input('Informe a senha para o acesso: ')
+
+#if user.checa_senha(senha):
+#    print('Acesso permitido')
+#else:
+#    print('Acesso Negado!')
+
+#print(f'Senha user criptografada: {user._Usuario__senha}') #Aceso errado!
 
 
-p1 = Produto('Playstation','Videogame',2300)
 
-print(p1.desconto(40))
+
+
+#p1 = Produto('Playstation','Videogame',2300)
+
+#print(p1.desconto(40))
+
+#print(user1.nome_comleto())
+
+#print(user2.nome_comleto())
+
+#print(Usuario.nome_comleto(user2))
