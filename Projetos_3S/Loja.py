@@ -198,13 +198,30 @@ class Venda:
     def vendedor(self, vendedor):
         self.__vendedor = vendedor
 
+    def gera_produto(self):
+        nome = input('Nome do produto: ')
+        preco = int(input('Valor do produto: '))
+        codigo = int(input('Código de barras: '))
+        descricao = input('Descrição do produto: ')
+        pcusto = int(input('valor de fabrica: '))
+        imposto = int(input('Porcentagem de impostos: '))
 
+        p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
+        return print(p.__dict__)
     def nota_fiscal(self):
-        pass
-    def calc_total(self):
-        pass
-#Produto---------------------------------------------------------------------------------------------------
+        print(f'----------------Auto Mecanica Simas Turbo-----------------'
+              f'\nData:{self.data} Hora:{self.hora}'
+              f'\n--------------------------------------------------------'
+              f'\nCliente:{self.cliente}'
+              f'\n--------------------------------------------------------'
+              f'\nProduto:{self.produto}'
+              f'\n--------------------------------------------------------'
+              f'\nTotal:'
+              f'\n--------------------------------------------------------')
+
+#----------------------------------------------Produto---------------------------------------------------------------------------------------------------
 class Produto:
+    contador = 0
     def __init__(self, nome, codigo, preco, descricao, pcusto, imposto):
         self.__nome = nome
         self.__codigo = codigo
@@ -280,5 +297,6 @@ class Produto:
               f'\n Porcentagem de impostos:{self.imposto}%')
 
 if __name__ == '__main__':
-
-    user1 = Usuario('Italo','vinicius','italorei7@gmail.com','232.154.687-95','23456',1)
+    v1 = Venda('Antonio','12/04/2020','12:30','felipinho','jose')
+    v1.gera_produto()
+    print(v1.__dict__)
