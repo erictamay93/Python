@@ -198,17 +198,6 @@ class Venda:
     def vendedor(self, vendedor):
         self.__vendedor = vendedor
 
-    def gera_produto(self): # retorna um objeto
-
-            nome = input('Nome do produto: ')
-            preco = int(input('Valor do produto: '))
-            codigo = int(input('Código de barras: '))
-            descricao = input('Descrição do produto: ')
-            pcusto = int(input('valor de fabrica: '))
-            imposto = int(input('Porcentagem de impostos: '))
-
-            p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
-            return p
     def nota_fiscal(self):
         print(f'----------------Auto Mecanica Simas Turbo-----------------'
               f'\nData:{self.data} Hora:{self.hora}'
@@ -301,37 +290,140 @@ def menu():
     print(f'O deseja fazer?'
         f'\n 1 - Cadastrar produto'
         f'\n 2 - Cadastrar usuario'
-        f'\n 3 - Realizar venda'
-        f'\n 4 - visualizar usuario'
-        f'\n 5 - visualizar produto')
+        f'\n 3 - Cadastrar cliente'
+        f'\n 4 - Alterar produto'
+        f'\n 5 - Alterar usuario'
+        f'\n 6 - Alterar cliente'
+        f'\n 7 - visualizar produto'
+        f'\n 8 - visualizar usuario'
+        f'\n 9 - visualizar cliente')
     opcao = input('Digite o número da operção')
+    return opcao
 
-def cadastra_produto(venda):
-    Venda.gera_produto(venda)
+def cadastra_produto():
+    nome = input('Nome do produto: ')
+    preco = int(input('Valor do produto: '))
+    codigo = int(input('Código de barras: '))
+    descricao = input('Descrição do produto: ')
+    pcusto = int(input('valor de fabrica: '))
+    imposto = int(input('Porcentagem de impostos: '))
+
+    p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
+    print(f'O produto {p.nome} foi cadastrado com sucesso!')
+    print(p.__dict__)
+
+def altera_produto(c):
+    print('O que deseja alterar?'
+          '\n 1 - Atualizar nome'
+          '\n 2 - Atualizar preço'
+          '\n 3 - Atualizar codigo de barras'
+          '\n 4 - Atualizar descrição'
+          '\n 4 - Atualizar valor de fabrica'
+          '\n 4 - Atualizar impostos')
+    op = input('Digite o número da operação')
+    if op == '1':
+       nnome = (input('Digite o novo nome'))
+       c.nome = nnome
+    elif op == '2':
+       ncodigo = (input('Digite o preço'))
+       c.codigo = ncodigo
+    elif op == '3':
+       npreco = (input('Digite o codigo de barras'))
+       c.preco = npreco
+    elif op == '4':
+       ndescricao = (input('Digite a nova descrição'))
+       c.descricao = ndescricao
+    elif op == '5':
+       npcusto = (input('Digite o novo preço de fabrica'))
+       c.pcusto = npcusto
+    elif op == '6':
+       nimposto = (input('Digite a nova porcentagem de impostos'))
+       c.imposto = nimposto
+
+
 def cadastra_usuario():
+    su = input('\n 1 - Gerente'
+               '\n 2 - Funcionario')
+    if su =='1':
+         nome = input('Informe o nome: ')
+         sobrnome =input('Informe o sobrenome: ')
+         email = input('Informe o email: ')
+         cpf = input('Informe o cpf: ')
+         senha = input('Informe a senha: ')
+         confirma_senha = input('Confirme a senha: ')
+         setor = input('setor')
+         venda = 0
 
-     nome = input('Informe o nome: ')
-     sobrnome =input('Informe o sobrenome: ')
-     email = input('Informe o email: ')
-     cpf = input('Informe o cpf: ')
-     senha = input('Informe a senha: ')
-     confirma_senha = input('Confirme a senha: ')
-     venda = 0
+         if senha == confirma_senha:
+            user = Gerente(nome,sobrnome,email, cpf, senha, setor, venda)
+            print(f'Usuario {user.nome_comleto()} criado com sucesso!')
+            print(user.__dict__)
+         else:
+            print('Senha não confere...')
+            exit(42)
+    elif su =='2':
 
-     if senha == confirma_senha:
-        user = Usuario(nome,sobrnome,email, cpf, senha, venda)
-        print('Usuario criado com sucesso!')
-        print(user.__dict__)
-     else:
-        print('Senha não confere...')
-        exit(42)
+        if su == '1':
+            nome = input('Informe o nome: ')
+            sobrnome = input('Informe o sobrenome: ')
+            email = input('Informe o email: ')
+            cpf = input('Informe o cpf: ')
+            senha = input('Informe a senha: ')
+            confirma_senha = input('Confirme a senha: ')
+            cargo = input('cargo')
+            venda = 0
+
+            if senha == confirma_senha:
+                user = Gerente(nome, sobrnome, email, cpf, senha, cargo, venda)
+                print(f'Usuario {user.nome_comleto()} criado com sucesso!')
+                print(user.__dict__)
+            else:
+                print('Senha não confere...')
+                exit(42)
+    else:
+        print('opção invalida!')
 
 def realiza_venda():
     pass
+
+def cadastra_cliente():
+    nome = input('Informe o nome: ')
+    sobrnome = input('Informe o sobrenome: ')
+    email = input('Informe o email: ')
+    cpf = input('Informe o cpf: ')
+    compra = 0
+    c = Clinete(nome,sobrnome, email, cpf, compra)
+    print(f'Usuario {c.nome_comleto()} Criado com sucesso!')
+    print(c.__dict__)
+
+def altera_cliente(c):
+    print('O que deseja alterar?'
+          '\n 1 - Atualizar nome'
+          '\n 2 - Atualizar sobrenome'
+          '\n 3 - Atualizar email'
+          '\n 4 - Atualizar cpf')
+    op = input('Digite o número da operação')
+    if op == '1':
+       nnome = (input('Digite o novo nome'))
+       c.nome = nnome
+    elif op == '2':
+       nsobrenome = (input('Digite o novo nome'))
+       c.sobrenome = nsobrenome
+    elif op == '3':
+       nemail = (input('Digite o novo nome'))
+       c.email = nemail
+    elif op == '4':
+       ncpf = (input('Digite o novo nome'))
+       c.cpf = ncpf
+
 def visualiza_usuario(user):
     Usuario.mostra_usuario(user)
+
 def visualiza_produto(produto):
     Produto.mostra_produto(produto)
+
+def visualiza_cliente(user):
+    Clinete.mostra_cliente(user)
 
 if __name__ == '__main__':
 #----------------------------------------------Produtos-------------------------------------------------------
@@ -342,8 +434,9 @@ if __name__ == '__main__':
    p5 = Produto('Gabinete', 4.99, 789466743, 'gabinete grande', 2.49, 1)
    p6 = Produto('Microfone', 4.99, 789459633, 'Microfone de mesa', 2.49, 2)
 #---------------------------------------------Usuarios---------------------------------------------------------
-   g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945',123456,'Vendedor','')
-   f1 = Funcionario('João','Batista','jao@gmail.com','65478932145',789456,1,'')
+   #g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945','123456','Vendedor',0)
+   #f1 = Funcionario('João','Batista','jao@gmail.com','65478932145','789456',1,0)
 #---------------------------------------------Cliente----------------------------------------------------------
-   c1 = Clinete('Juliana','Pereira','ju@gmail.com','45696325814','')
+   c1 = Clinete('Juliana','Pereira','ju@gmail.com','45696325814',0)
 #--------------------------------------------------------------------------------------------------------------
+
