@@ -296,17 +296,54 @@ class Produto:
               f'\n Descrição:{self.descricao}'
               f'\n Preço de custo:{self.pcusto}'
               f'\n Porcentagem de impostos:{self.imposto}%')
+#------------------------------------------------Funções----------------------------------------------------------------------
+def menu():
+    print(f'O deseja fazer?'
+        f'\n 1 - Cadastrar produto'
+        f'\n 2 - Cadastrar usuario'
+        f'\n 3 - Realizar venda'
+        f'\n 4 - visualizar usuario'
+        f'\n 5 - visualizar produto')
+    opcao = input('Digite o número da operção')
+
+def cadastra_produto(venda):
+    Venda.gera_produto(venda)
+def cadastra_usuario():
+
+     nome = input('Informe o nome: ')
+     sobrnome =input('Informe o sobrenome: ')
+     email = input('Informe o email: ')
+     cpf = input('Informe o cpf: ')
+     senha = input('Informe a senha: ')
+     confirma_senha = input('Confirme a senha: ')
+     venda = 0
+
+     if senha == confirma_senha:
+        user = Usuario(nome,sobrnome,email, cpf, senha, venda)
+        print('Usuario criado com sucesso!')
+        print(user.__dict__)
+     else:
+        print('Senha não confere...')
+        exit(42)
+
+def realiza_venda():
+    pass
+def visualiza_usuario(user):
+    Usuario.mostra_usuario(user)
+def visualiza_produto(produto):
+    Produto.mostra_produto(produto)
 
 if __name__ == '__main__':
-    v1 = Venda('Antonio','12/04/2020','12:30','felipinho','jose')
-    qtd_prod = [[], [], [] ,[], [], []]
-    op = True
-    while op == True:
-        v1.gera_produto()
-        qtd_prod.append(v1.gera_produto().nome)
-        q = input('Deseja continuar? [s/n]').upper()
-        if q == 'S':
-            op = True
-        else:
-            op = False
-    print(qtd_prod)
+#----------------------------------------------Produtos-------------------------------------------------------
+   p1 = Produto('Mousepad', 4.99, 789456123, 'Mouse pad com apoio para a mão', 2.49, 1)
+   p2 = Produto('Tclado', 4.99, 789455853, 'Teclado mecanico ', 2.49, 2)
+   p3 = Produto('Mouse', 4.99, 789452153, 'Mouse optico sem fio', 2.49, 3)
+   p4 = Produto('Monitor', 4.99, 789485223, 'Monitor asus 1400X900', 2.49, 1)
+   p5 = Produto('Gabinete', 4.99, 789466743, 'gabinete grande', 2.49, 1)
+   p6 = Produto('Microfone', 4.99, 789459633, 'Microfone de mesa', 2.49, 2)
+#---------------------------------------------Usuarios---------------------------------------------------------
+   g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945',123456,'Vendedor','')
+   f1 = Funcionario('João','Batista','jao@gmail.com','65478932145',789456,1,'')
+#---------------------------------------------Cliente----------------------------------------------------------
+   c1 = Clinete('Juliana','Pereira','ju@gmail.com','45696325814','')
+#--------------------------------------------------------------------------------------------------------------
