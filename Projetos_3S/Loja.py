@@ -198,16 +198,17 @@ class Venda:
     def vendedor(self, vendedor):
         self.__vendedor = vendedor
 
-    def gera_produto(self):
-        nome = input('Nome do produto: ')
-        preco = int(input('Valor do produto: '))
-        codigo = int(input('Código de barras: '))
-        descricao = input('Descrição do produto: ')
-        pcusto = int(input('valor de fabrica: '))
-        imposto = int(input('Porcentagem de impostos: '))
+    def gera_produto(self): # retorna um objeto
 
-        p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
-        return print(p.__dict__)
+            nome = input('Nome do produto: ')
+            preco = int(input('Valor do produto: '))
+            codigo = int(input('Código de barras: '))
+            descricao = input('Descrição do produto: ')
+            pcusto = int(input('valor de fabrica: '))
+            imposto = int(input('Porcentagem de impostos: '))
+
+            p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
+            return p
     def nota_fiscal(self):
         print(f'----------------Auto Mecanica Simas Turbo-----------------'
               f'\nData:{self.data} Hora:{self.hora}'
@@ -298,5 +299,14 @@ class Produto:
 
 if __name__ == '__main__':
     v1 = Venda('Antonio','12/04/2020','12:30','felipinho','jose')
-    v1.gera_produto()
-    print(v1.__dict__)
+    qtd_prod = [[], [], [] ,[], [], []]
+    op = True
+    while op == True:
+        v1.gera_produto()
+        qtd_prod.append(v1.gera_produto().nome)
+        q = input('Deseja continuar? [s/n]').upper()
+        if q == 'S':
+            op = True
+        else:
+            op = False
+    print(qtd_prod)
