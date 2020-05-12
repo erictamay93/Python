@@ -1,7 +1,7 @@
-from passlib.hash import pbkdf2_sha256 as cryp #importando o necessario para criptografia char256
-#-----------------------------------------Pessoa---------------------------------------------------------------------------------------------------
+from passlib.hash import pbkdf2_sha256 as cryp #importando o necessário para criptografia char256
+#--------------------------------------------- Pessoa ------------------------------------------------------------------
 class Pessoa:
-    def __init__(self, nome, sobrenome, email,cpf):
+    def __init__(self, nome, sobrenome, email, cpf):
         self.__nome = nome
         self.__sobrenome = sobrenome
         self.__email = email
@@ -14,7 +14,6 @@ class Pessoa:
     @nome.setter
     def nome(self, nome):
         self.__nome = nome
-
 
     @property
     def sobrenome(self):
@@ -41,23 +40,22 @@ class Pessoa:
         self.__cpf = cpf
 
     def nome_comleto(self):
-        return f'{self.__nome} {self.__sobrenome}'
+        return f'{self.__nome} {self.__sobrenome}.'
 
-#---------------------------------------------Usuario---------------------------------------------------------------------------------------------------
+#--------------------------------------------- Usuário -----------------------------------------------------------------
 class Usuario(Pessoa):
     contador = 0
-    @classmethod # e necessario para criar um método de classe
-    def conta_usuarios(cls):# o parametor é a propria classe
-        print(f'{cls.contador} usuario(s) no sistema')
-
+    @classmethod #é necessário para criar um método de classe
+    def conta_usuarios(cls): #o parametro é a propria classe
+        print(f'{cls.contador} usuário(s) no sistema.')
 
     def __init__(self, nome, sobrenome, email, cpf, senha, venda):
-        super().__init__(nome,sobrenome, email, cpf)
+        super().__init__(nome, sobrenome, email, cpf)
         self.__venda = venda
         self.__id = Usuario.contador+1
-        self.__senha = cryp.hash(senha, rounds=200000, salt_size=16)# qual string sera incriptada, o ronund mostra quantos embaralhamentos seram feitos salt = parte do texto que será juntada
+        self.__senha = cryp.hash(senha, rounds=200000, salt_size=16) #qual string será incriptada, o ronund mostra quantos embaralhamentos serão feitos; salt = parte do texto que será juntada
         Usuario.contador = self.__id
-        print(f'Usuario criado: {self.__gera_usuario()}')
+        print(f'Usuário criado: {self.__gera_usuario()}.')
 
     @property
     def id(self):
@@ -80,27 +78,25 @@ class Usuario(Pessoa):
         self.__venda = venda
 
     #verifica se a senha digitada é igual a senha registrada
-    def checa_senha(self,senha):
+    def checa_senha(self, senha):
         if cryp.verify(senha, senha):
             return True
         return False
 
-
     def __gera_usuario(self):
-        return self.email.split('@')[0] #quebra a string no ponto desejado e devolve o que estava antes do parametro na posiçãozeroda lista
-
+        return self.email.split('@')[0] #quebra a string no ponto desejado e devolve o que estava antes do parametro na posição zero da lista
 
     def mostra_usuario(self,):
-        print(f'\n {self.id}'
-              f'\n Nome:{self.nome}'
-              f'\n Sobrenome:{self.sobrenome}'
-              f'\n CPF:{self.cpf}'
-              f'\n Email:{self.email}')
+        print(f'\n{self.id}.'
+              f'\nNome: {self.nome}.'
+              f'\nSobrenome: {self.sobrenome}.'
+              f'\nCPF: {self.cpf}.'
+              f'\nEmail: {self.email}.')
 
-#--------------------------------------------Funcionario---------------------------------------------------------------------------------------------------
+#--------------------------------------------- Funcionário -------------------------------------------------------------
 class Funcionario(Usuario):
     def __init__(self, nome, sobrenome, email, cpf, senha, funcao, venda):
-        super().__init__(nome,sobrenome, email,cpf, senha, venda)
+        super().__init__(nome, sobrenome, email, cpf, senha, venda)
         self.__funcao = funcao
 
     @property
@@ -108,12 +104,12 @@ class Funcionario(Usuario):
         return self.__funcao
 
     def mostra_funcao(self):
-        print(f'O Funcionario{Usuario.nome} realiza a função de {self.funcao}')
+        print(f'O Funcionário {Usuario.nome} realiza a função de {self.funcao}.')
 
-#---------------------------------------------Gerente---------------------------------------------------------------------------------------------------
+#--------------------------------------------- Gerente -----------------------------------------------------------------
 class Gerente(Usuario):
-    def __init__(self, nome, sobrenome, email, cpf, senha,  setor, venda):
-        super().__init__(nome,sobrenome, email,cpf, senha, venda)
+    def __init__(self, nome, sobrenome, email, cpf, senha, setor, venda):
+        super().__init__(nome, sobrenome, email, cpf, senha, venda)
         self.__setor = setor
 
     @property
@@ -125,16 +121,15 @@ class Gerente(Usuario):
         self.__setor = setor
 
     def mostra_setor(self):
-        print(f'O gerente:{Usuario.nome} e responsavel pelo setor:{self.setor}')
-
+        print(f'O gerente {Usuario.nome} é responsável pelo setor {self.setor}.')
 
     def delUser(self):
         pass
 
-#Cliente---------------------------------------------------------------------------------------------------
-class Clinete(Pessoa):
-    def __init__(self, nome, sobrenome, email, cpf,compra):
-        super().__init__(nome, sobrenome ,email, cpf)
+#--------------------------------------------- Cliente -----------------------------------------------------------------
+class Cliente(Pessoa):
+    def __init__(self, nome, sobrenome, email, cpf, compra):
+        super().__init__(nome, sobrenome, email, cpf)
         self.__compra = compra
 
     @property
@@ -142,14 +137,13 @@ class Clinete(Pessoa):
         return self.__compra
 
     def mostra_cliente(self):
-        print(f'\n Nome:{self.nome}'
-              f'\n Sobrenome:{self.sobrenome}'
-              f'\n CPF:{self.cpf}'
-              f'\n Email:{self.email}'
-              f'\n Compra:{self.compra}')
+        print(f'\nNome: {self.nome}.'
+              f'\nSobrenome: {self.sobrenome}.'
+              f'\nCPF: {self.cpf}.'
+              f'\nEmail: {self.email}.'
+              f'\nCompra: {self.compra}.')
 
-
-#Venda---------------------------------------------------------------------------------------------------
+#--------------------------------------------- Venda -------------------------------------------------------------------
 class Venda:
     def __init__(self, data, hora, produto, cliente, vendedor):
         self.__data = data
@@ -199,17 +193,17 @@ class Venda:
         self.__vendedor = vendedor
 
     def nota_fiscal(self):
-        print(f'----------------Auto Mecanica Simas Turbo-----------------'
-              f'\nData:{self.data} Hora:{self.hora}'
-              f'\n--------------------------------------------------------'
-              f'\nCliente:{self.cliente}'
-              f'\n--------------------------------------------------------'
-              f'\nProduto:{self.produto}'
-              f'\n--------------------------------------------------------'
-              f'\nTotal:'
-              f'\n--------------------------------------------------------')
+        print(f'--------------- Auto Mecanica Simas Turbo ---------------'
+              f'\nData: {self.data} Hora: {self.hora}'
+              f'\n---------------------------------------------------------'
+              f'\nCliente: {self.cliente}'
+              f'\n---------------------------------------------------------'
+              f'\nProduto: {self.produto}'
+              f'\n---------------------------------------------------------'
+              f'\nTotal: '
+              f'\n---------------------------------------------------------')
 
-#----------------------------------------------Produto---------------------------------------------------------------------------------------------------
+#--------------------------------------------- Produto -----------------------------------------------------------------
 class Produto:
     contador = 0
     def __init__(self, nome, codigo, preco, descricao, pcusto, imposto):
@@ -268,36 +262,36 @@ class Produto:
     def imposto(self, imposto):
         self.__imposto = imposto
 
-    def lucro(self,imposto, preco, pcusto):
+    def lucro(self, imposto, preco, pcusto):
         pimposto = pcusto * imposto/100
         lucro = (pimposto + pcusto) - preco
         return  lucro
 
     def desconto(self, preco):
-        vdesc = int(input('Digite o valor do desconto'))
+        vdesc = int(input('Digite o valor do desconto: '))
         desc = (preco * vdesc/100) - preco
-        return f'O deconto foi de {desc}'
+        return f'O desconto foi de R$ {desc}.'
 
     def mostra_produto(self):
-        print(f'\n Nome:{self.nome}'
-              f'\n Código:{self.codigo}'
-              f'\n Preço:{self.preco}'
-              f'\n Descrição:{self.descricao}'
-              f'\n Preço de custo:{self.pcusto}'
-              f'\n Porcentagem de impostos:{self.imposto}%')
-#------------------------------------------------Funções----------------------------------------------------------------------
+        print(f'\nNome: {self.nome}.'
+              f'\nCódigo: {self.codigo}.'
+              f'\nPreço: {self.preco}.'
+              f'\nDescrição: {self.descricao}.'
+              f'\nPreço de custo: {self.pcusto}.'
+              f'\nPorcentagem de impostos: {self.imposto}%.')
+#--------------------------------------------- Funções -----------------------------------------------------------------
 def menu():
     print(f'O deseja fazer?'
-        f'\n 1 - Cadastrar produto'
-        f'\n 2 - Cadastrar usuario'
-        f'\n 3 - Cadastrar cliente'
-        f'\n 4 - Alterar produto'
-        f'\n 5 - Alterar usuario'
-        f'\n 6 - Alterar cliente'
-        f'\n 7 - visualizar produto'
-        f'\n 8 - visualizar usuario'
-        f'\n 9 - visualizar cliente')
-    opcao = input('Digite o número da operção')
+        f'\n1 - Cadastrar produto'
+        f'\n2 - Cadastrar usuário'
+        f'\n3 - Cadastrar cliente'
+        f'\n4 - Alterar produto'
+        f'\n5 - Alterar usuário'
+        f'\n6 - Alterar cliente'
+        f'\n7 - Visualizar produto'
+        f'\n8 - Visualizar usuário'
+        f'\n9 - Visualizar cliente')
+    opcao = input('Digite o número da operção: ')
     return opcao
 
 def cadastra_produto():
@@ -305,7 +299,7 @@ def cadastra_produto():
     preco = int(input('Valor do produto: '))
     codigo = int(input('Código de barras: '))
     descricao = input('Descrição do produto: ')
-    pcusto = int(input('valor de fabrica: '))
+    pcusto = int(input('Valor de fábrica: '))
     imposto = int(input('Porcentagem de impostos: '))
 
     p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
@@ -316,50 +310,50 @@ def altera_produto(c):
     print('O que deseja alterar?'
           '\n 1 - Atualizar nome'
           '\n 2 - Atualizar preço'
-          '\n 3 - Atualizar codigo de barras'
+          '\n 3 - Atualizar código de barras'
           '\n 4 - Atualizar descrição'
-          '\n 4 - Atualizar valor de fabrica'
+          '\n 4 - Atualizar valor de fábrica'
           '\n 4 - Atualizar impostos')
-    op = input('Digite o número da operação')
+    op = input('Digite o número da operação: ')
     if op == '1':
-       nnome = (input('Digite o novo nome'))
+       nnome = (input('Digite o novo nome: '))
        c.nome = nnome
     elif op == '2':
-       ncodigo = (input('Digite o preço'))
+       ncodigo = (input('Digite o preço: '))
        c.codigo = ncodigo
     elif op == '3':
-       npreco = (input('Digite o codigo de barras'))
+       npreco = (input('Digite o codigo de barras: '))
        c.preco = npreco
     elif op == '4':
-       ndescricao = (input('Digite a nova descrição'))
+       ndescricao = (input('Digite a nova descrição: '))
        c.descricao = ndescricao
     elif op == '5':
-       npcusto = (input('Digite o novo preço de fabrica'))
+       npcusto = (input('Digite o novo preço de fábrica: '))
        c.pcusto = npcusto
     elif op == '6':
-       nimposto = (input('Digite a nova porcentagem de impostos'))
+       nimposto = (input('Digite a nova porcentagem de impostos: '))
        c.imposto = nimposto
 
 
 def cadastra_usuario():
-    su = input('\n 1 - Gerente'
-               '\n 2 - Funcionario')
+    su = input('\n1 - Gerente'
+               '\n2 - Funcionário')
     if su =='1':
          nome = input('Informe o nome: ')
          sobrnome =input('Informe o sobrenome: ')
          email = input('Informe o email: ')
-         cpf = input('Informe o cpf: ')
+         cpf = input('Informe o CPF: ')
          senha = input('Informe a senha: ')
          confirma_senha = input('Confirme a senha: ')
-         setor = input('setor')
+         setor = input('Setor: ')
          venda = 0
 
          if senha == confirma_senha:
             user = Gerente(nome,sobrnome,email, cpf, senha, setor, venda)
-            print(f'Usuario {user.nome_comleto()} criado com sucesso!')
+            print(f'Usuário {user.nome_comleto()} criado com sucesso!')
             print(user.__dict__)
          else:
-            print('Senha não confere...')
+            print('As senhas digitadas estão diferentes.')
             exit(42)
     elif su =='2':
 
@@ -367,21 +361,21 @@ def cadastra_usuario():
             nome = input('Informe o nome: ')
             sobrnome = input('Informe o sobrenome: ')
             email = input('Informe o email: ')
-            cpf = input('Informe o cpf: ')
+            cpf = input('Informe o CPF: ')
             senha = input('Informe a senha: ')
             confirma_senha = input('Confirme a senha: ')
-            cargo = input('cargo')
+            cargo = input('Cargo: ')
             venda = 0
 
             if senha == confirma_senha:
                 user = Gerente(nome, sobrnome, email, cpf, senha, cargo, venda)
-                print(f'Usuario {user.nome_comleto()} criado com sucesso!')
+                print(f'Usuário {user.nome_comleto()} criado com sucesso!')
                 print(user.__dict__)
             else:
-                print('Senha não confere...')
+                print('As senhas digitadas estão diferentes.')
                 exit(42)
     else:
-        print('opção invalida!')
+        print('Ppção inválida!')
 
 def realiza_venda():
     pass
@@ -390,30 +384,30 @@ def cadastra_cliente():
     nome = input('Informe o nome: ')
     sobrnome = input('Informe o sobrenome: ')
     email = input('Informe o email: ')
-    cpf = input('Informe o cpf: ')
+    cpf = input('Informe o CPF: ')
     compra = 0
-    c = Clinete(nome,sobrnome, email, cpf, compra)
-    print(f'Usuario {c.nome_comleto()} Criado com sucesso!')
+    c = Cliente(nome,sobrnome, email, cpf, compra)
+    print(f'Usuário {c.nome_comleto()} criado com sucesso!')
     print(c.__dict__)
 
 def altera_cliente(c):
     print('O que deseja alterar?'
-          '\n 1 - Atualizar nome'
-          '\n 2 - Atualizar sobrenome'
-          '\n 3 - Atualizar email'
-          '\n 4 - Atualizar cpf')
-    op = input('Digite o número da operação')
+          '\n1 - Atualizar nome'
+          '\n2 - Atualizar sobrenome'
+          '\n3 - Atualizar email'
+          '\n4 - Atualizar CPF')
+    op = input('Digite o número da operação: ')
     if op == '1':
-       nnome = (input('Digite o novo nome'))
+       nnome = (input('Digite o novo nome: '))
        c.nome = nnome
     elif op == '2':
-       nsobrenome = (input('Digite o novo nome'))
+       nsobrenome = (input('Digite o novo sobrenome: '))
        c.sobrenome = nsobrenome
     elif op == '3':
-       nemail = (input('Digite o novo nome'))
+       nemail = (input('Digite o novo email: '))
        c.email = nemail
     elif op == '4':
-       ncpf = (input('Digite o novo nome'))
+       ncpf = (input('Digite o novo CPF: '))
        c.cpf = ncpf
 
 def visualiza_usuario(user):
@@ -423,20 +417,19 @@ def visualiza_produto(produto):
     Produto.mostra_produto(produto)
 
 def visualiza_cliente(user):
-    Clinete.mostra_cliente(user)
+    Cliente.mostra_cliente(user)
 
 if __name__ == '__main__':
 #----------------------------------------------Produtos-------------------------------------------------------
    p1 = Produto('Mousepad', 4.99, 789456123, 'Mouse pad com apoio para a mão', 2.49, 1)
-   p2 = Produto('Tclado', 4.99, 789455853, 'Teclado mecanico ', 2.49, 2)
-   p3 = Produto('Mouse', 4.99, 789452153, 'Mouse optico sem fio', 2.49, 3)
-   p4 = Produto('Monitor', 4.99, 789485223, 'Monitor asus 1400X900', 2.49, 1)
-   p5 = Produto('Gabinete', 4.99, 789466743, 'gabinete grande', 2.49, 1)
+   p2 = Produto('Teclado', 4.99, 789455853, 'Teclado mecânico ', 2.49, 2)
+   p3 = Produto('Mouse', 4.99, 789452153, 'Mouse óptico sem fio', 2.49, 3)
+   p4 = Produto('Monitor', 4.99, 789485223, 'Monitor ASUS 1400X900', 2.49, 1)
+   p5 = Produto('Gabinete', 4.99, 789466743, 'Gabinete full tower', 2.49, 1)
    p6 = Produto('Microfone', 4.99, 789459633, 'Microfone de mesa', 2.49, 2)
 #---------------------------------------------Usuarios---------------------------------------------------------
    #g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945','123456','Vendedor',0)
    #f1 = Funcionario('João','Batista','jao@gmail.com','65478932145','789456',1,0)
 #---------------------------------------------Cliente----------------------------------------------------------
-   c1 = Clinete('Juliana','Pereira','ju@gmail.com','45696325814',0)
+   c1 = Cliente('Juliana', 'Pereira', 'ju@gmail.com', '45696325814', 0)
 #--------------------------------------------------------------------------------------------------------------
-
