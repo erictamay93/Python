@@ -1,7 +1,11 @@
-from passlib.hash import pbkdf2_sha256 as cryp #importando o necessário para criptografia char256
-#--------------------------------------------- Pessoa ------------------------------------------------------------------
+from passlib.hash import pbkdf2_sha256 as cryp #importando o necessario para criptografia char256
+"""
+Simas precisa de um sistema de controle de caixa para a sua loja de eletronicos
+"""
+
+#-----------------------------------------Pessoa---------------------------------------------------------------------------------------------------
 class Pessoa:
-    def __init__(self, nome, sobrenome, email, cpf):
+    def __init__(self, nome, sobrenome, email,cpf):
         self.__nome = nome
         self.__sobrenome = sobrenome
         self.__email = email
@@ -14,6 +18,7 @@ class Pessoa:
     @nome.setter
     def nome(self, nome):
         self.__nome = nome
+
 
     @property
     def sobrenome(self):
@@ -40,22 +45,23 @@ class Pessoa:
         self.__cpf = cpf
 
     def nome_comleto(self):
-        return f'{self.__nome} {self.__sobrenome}.'
+        return f'{self.__nome} {self.__sobrenome}'
 
-#--------------------------------------------- Usuário -----------------------------------------------------------------
+#---------------------------------------------Usuario---------------------------------------------------------------------------------------------------
 class Usuario(Pessoa):
     contador = 0
-    @classmethod #é necessário para criar um método de classe
-    def conta_usuarios(cls): #o parametro é a propria classe
-        print(f'{cls.contador} usuário(s) no sistema.')
+    @classmethod # e necessario para criar um método de classe
+    def conta_usuarios(cls):# o parametor é a propria classe
+        print(f'{cls.contador} usuario(s) no sistema')
+
 
     def __init__(self, nome, sobrenome, email, cpf, senha, venda):
-        super().__init__(nome, sobrenome, email, cpf)
+        super().__init__(nome,sobrenome, email, cpf)
         self.__venda = venda
         self.__id = Usuario.contador+1
-        self.__senha = cryp.hash(senha, rounds=200000, salt_size=16) #qual string será incriptada, o ronund mostra quantos embaralhamentos serão feitos; salt = parte do texto que será juntada
+        self.__senha = cryp.hash(senha, rounds=200000, salt_size=16)# qual string sera incriptada, o ronund mostra quantos embaralhamentos seram feitos salt = parte do texto que será juntada
         Usuario.contador = self.__id
-        print(f'Usuário criado: {self.__gera_usuario()}.')
+        print(f'Usuario criado: {self.__gera_usuario()}')
 
     @property
     def id(self):
@@ -78,25 +84,27 @@ class Usuario(Pessoa):
         self.__venda = venda
 
     #verifica se a senha digitada é igual a senha registrada
-    def checa_senha(self, senha):
+    def checa_senha(self,senha):
         if cryp.verify(senha, senha):
             return True
         return False
 
+
     def __gera_usuario(self):
-        return self.email.split('@')[0] #quebra a string no ponto desejado e devolve o que estava antes do parametro na posição zero da lista
+        return self.email.split('@')[0]
+        #quebra a string no ponto desejado e devolve o que estava antes do parametro na posiçãozeroda lista
 
     def mostra_usuario(self,):
-        print(f'\n{self.id}.'
-              f'\nNome: {self.nome}.'
-              f'\nSobrenome: {self.sobrenome}.'
-              f'\nCPF: {self.cpf}.'
-              f'\nEmail: {self.email}.')
+        print(f'\n {self.id}'
+              f'\n Nome:{self.nome}'
+              f'\n Sobrenome:{self.sobrenome}'
+              f'\n CPF:{self.cpf}'
+              f'\n Email:{self.email}')
 
-#--------------------------------------------- Funcionário -------------------------------------------------------------
+#--------------------------------------------Funcionario---------------------------------------------------------------------------------------------------
 class Funcionario(Usuario):
     def __init__(self, nome, sobrenome, email, cpf, senha, funcao, venda):
-        super().__init__(nome, sobrenome, email, cpf, senha, venda)
+        super().__init__(nome,sobrenome, email, cpf, senha, venda)
         self.__funcao = funcao
 
     @property
@@ -104,9 +112,9 @@ class Funcionario(Usuario):
         return self.__funcao
 
     def mostra_funcao(self):
-        print(f'O Funcionário {Usuario.nome} realiza a função de {self.funcao}.')
+        print(f'O Funcionario {Usuario.nome} realiza a função de {self.funcao}')
 
-#--------------------------------------------- Gerente -----------------------------------------------------------------
+#---------------------------------------------Gerente---------------------------------------------------------------------------------------------------
 class Gerente(Usuario):
     def __init__(self, nome, sobrenome, email, cpf, senha, setor, venda):
         super().__init__(nome, sobrenome, email, cpf, senha, venda)
@@ -121,12 +129,12 @@ class Gerente(Usuario):
         self.__setor = setor
 
     def mostra_setor(self):
-        print(f'O gerente {Usuario.nome} é responsável pelo setor {self.setor}.')
+        print(f'O gerente:{Usuario.nome} e responsavel pelo setor:{self.setor}')
 
     def delUser(self):
         pass
 
-#--------------------------------------------- Cliente -----------------------------------------------------------------
+#---------------------------------------------Cliente---------------------------------------------------------------------------------------------------
 class Cliente(Pessoa):
     def __init__(self, nome, sobrenome, email, cpf, compra):
         super().__init__(nome, sobrenome, email, cpf)
@@ -137,18 +145,17 @@ class Cliente(Pessoa):
         return self.__compra
 
     def mostra_cliente(self):
-        print(f'\nNome: {self.nome}.'
-              f'\nSobrenome: {self.sobrenome}.'
-              f'\nCPF: {self.cpf}.'
-              f'\nEmail: {self.email}.'
-              f'\nCompra: {self.compra}.')
+        print(f'\n Nome:{self.nome}'
+              f'\n Sobrenome:{self.sobrenome}'
+              f'\n CPF:{self.cpf}'
+              f'\n Email:{self.email}'
+              f'\n Compra:{self.compra}')
 
-#--------------------------------------------- Venda -------------------------------------------------------------------
+#-----------------------------------------------Venda---------------------------------------------------------------------------------------------------
 class Venda:
-    def __init__(self, data, hora, produto, cliente, vendedor):
+    def __init__(self, data, hora,  cliente, vendedor):
         self.__data = data
         self.__hora = hora
-        self.__produto = produto
         self.__cliente = cliente
         self.__vendedor = vendedor
 
@@ -169,14 +176,6 @@ class Venda:
         self.__hora = hora
 
     @property
-    def produto(self):
-        return self.__produto
-
-    @produto.setter
-    def produto(self, produto):
-        self.__produto = produto
-
-    @property
     def cliente(self):
         return self.__cliente
 
@@ -192,24 +191,54 @@ class Venda:
     def vendedor(self, vendedor):
         self.__vendedor = vendedor
 
-    def nota_fiscal(self):
-        print(f'--------------- Auto Mecanica Simas Turbo ---------------'
-              f'\nData: {self.data} Hora: {self.hora}'
-              f'\n---------------------------------------------------------'
-              f'\nCliente: {self.cliente}'
-              f'\n---------------------------------------------------------'
-              f'\nProduto: {self.produto}'
-              f'\n---------------------------------------------------------'
-              f'\nTotal: '
-              f'\n---------------------------------------------------------')
+    def carrinho_compras(self,estoque):
+        carrinho = []
+        produto = []
+        c_preco = []#contador de precos
+        s_preco = 0
+        while produto != 'sair':
+            print("Adicione um produto no carrinho ou digite 'sair para sair:'")
+            produto = input()
+            if produto != 'sair':
+                if produto == 'p1':
+                    carrinho.append(p1.__dict__)
+                    c_preco.append(p1.__dict__['_Produto__preco'])
+                if produto == 'p2':
+                    carrinho.append(p2.__dict__)
+                    c_preco.append(p2.__dict__['_Produto__preco'])
+                if produto == 'p3':
+                    carrinho.append(p3.__dict__)
+                    c_preco.append(p3.__dict__['_Produto__preco'])
+                if produto == 'p4':
+                    carrinho.append(p4.__dict__)
+                    c_preco.append(p4.__dict__['_Produto__preco'])
+                if produto == 'p5':
+                    carrinho.append(p5.__dict__)
+                    c_preco.append(p6.__dict__['_Produto__preco'])
+                if produto == 'p6':
+                    carrinho.append(p6.__dict__)
+                    c_preco.append(p6.__dict__['_Produto__preco'])
 
-#--------------------------------------------- Produto -----------------------------------------------------------------
+        print(f'----------------Eletronica Simas Turbo--------------------'
+              f'\nData:{self.data} Hora:{self.hora}'
+              f'\n--------------------------------------------------------'
+              f'\nCliente:{self.cliente}'
+              f'\n--------------------------------------------------------')
+        for produto in carrinho:
+             print( f'\n Produto: {len(carrinho)}:{produto.values()}')
+        for p in c_preco:
+            s_preco += p
+        print(f'\n--------------------------------------------------------'
+              f'\nTotal:{s_preco}'
+              f'\n--------------------------------------------------------')
+
+#----------------------------------------------Produto---------------------------------------------------------------------------------------------------
 class Produto:
     contador = 0
-    def __init__(self, nome, codigo, preco, descricao, pcusto, imposto):
+    def __init__(self, nome, preco, codigo, descricao, pcusto, imposto):
         self.__nome = nome
-        self.__codigo = codigo
         self.__preco = preco
+        self.__codigo = codigo
         self.__descricao = descricao
         self.__pcusto = pcusto
         self.__imposto = imposto
@@ -262,36 +291,44 @@ class Produto:
     def imposto(self, imposto):
         self.__imposto = imposto
 
-    def lucro(self, imposto, preco, pcusto):
+    def lucro(self,imposto, preco, pcusto):
         pimposto = pcusto * imposto/100
         lucro = (pimposto + pcusto) - preco
         return  lucro
 
     def desconto(self, preco):
-        vdesc = int(input('Digite o valor do desconto: '))
+        vdesc = int(input('Digite o valor do desconto'))
         desc = (preco * vdesc/100) - preco
-        return f'O desconto foi de R$ {desc}.'
+        return f'O deconto foi de {desc}'
+
+
+
 
     def mostra_produto(self):
-        print(f'\nNome: {self.nome}.'
-              f'\nCódigo: {self.codigo}.'
-              f'\nPreço: {self.preco}.'
-              f'\nDescrição: {self.descricao}.'
-              f'\nPreço de custo: {self.pcusto}.'
-              f'\nPorcentagem de impostos: {self.imposto}%.')
-#--------------------------------------------- Funções -----------------------------------------------------------------
+        print(f'\n Nome:{self.nome}'
+              f'\n Código:{self.codigo}'
+              f'\n Preço:{self.preco}'
+              f'\n Descrição:{self.descricao}'
+              f'\n Preço de custo:{self.pcusto}'
+              f'\n Porcentagem de impostos:{self.imposto}%')
+#------------------------------------------------CRUD----------------------------------------------------------------------
+
+
 def menu():
     print(f'O deseja fazer?'
-        f'\n1 - Cadastrar produto'
-        f'\n2 - Cadastrar usuário'
-        f'\n3 - Cadastrar cliente'
-        f'\n4 - Alterar produto'
-        f'\n5 - Alterar usuário'
-        f'\n6 - Alterar cliente'
-        f'\n7 - Visualizar produto'
-        f'\n8 - Visualizar usuário'
-        f'\n9 - Visualizar cliente')
-    opcao = input('Digite o número da operção: ')
+        f'\n 1 - Cadastrar produto'
+        f'\n 2 - Cadastrar usuario'
+        f'\n 3 - Cadastrar cliente'
+        f'\n 4 - Alterar produto'
+        f'\n 5 - Alterar usuario'
+        f'\n 6 - Alterar cliente'
+        f'\n 7 - visualizar produto'
+        f'\n 8 - visualizar usuario'
+        f'\n 9 - visualizar cliente'
+        f'\n 10 - Deleta produto'
+        f'\n 11 - Deleta usuario'
+        f'\n 12 - Deleta cliente')
+    opcao = input('Digite o número da operção')
     return opcao
 
 def cadastra_produto():
@@ -299,115 +336,126 @@ def cadastra_produto():
     preco = int(input('Valor do produto: '))
     codigo = int(input('Código de barras: '))
     descricao = input('Descrição do produto: ')
-    pcusto = int(input('Valor de fábrica: '))
+    pcusto = int(input('valor de fabrica: '))
     imposto = int(input('Porcentagem de impostos: '))
 
     p = Produto(nome, preco, codigo, descricao, pcusto, imposto)
     print(f'O produto {p.nome} foi cadastrado com sucesso!')
     print(p.__dict__)
+    return p
 
 def altera_produto(c):
     print('O que deseja alterar?'
           '\n 1 - Atualizar nome'
           '\n 2 - Atualizar preço'
-          '\n 3 - Atualizar código de barras'
+          '\n 3 - Atualizar codigo de barras'
           '\n 4 - Atualizar descrição'
-          '\n 4 - Atualizar valor de fábrica'
+          '\n 4 - Atualizar valor de fabrica'
           '\n 4 - Atualizar impostos')
-    op = input('Digite o número da operação: ')
+    op = input('Digite o número da operação')
     if op == '1':
-       nnome = (input('Digite o novo nome: '))
+       nnome = (input('Digite o novo nome'))
        c.nome = nnome
-    elif op == '2':
-       ncodigo = (input('Digite o preço: '))
+    if op == '2':
+       ncodigo = (input('Digite o preço'))
        c.codigo = ncodigo
-    elif op == '3':
-       npreco = (input('Digite o codigo de barras: '))
+    if op == '3':
+       npreco = (input('Digite o codigo de barras'))
        c.preco = npreco
-    elif op == '4':
-       ndescricao = (input('Digite a nova descrição: '))
+    if op == '4':
+       ndescricao = (input('Digite a nova descrição'))
        c.descricao = ndescricao
-    elif op == '5':
-       npcusto = (input('Digite o novo preço de fábrica: '))
+    if op == '5':
+       npcusto = (input('Digite o novo preço de fabrica'))
        c.pcusto = npcusto
-    elif op == '6':
-       nimposto = (input('Digite a nova porcentagem de impostos: '))
+    if op == '6':
+       nimposto = (input('Digite a nova porcentagem de impostos'))
        c.imposto = nimposto
 
-
 def cadastra_usuario():
-    su = input('\n1 - Gerente'
-               '\n2 - Funcionário')
+    su = input('\n 1 - Gerente'
+               '\n 2 - Funcionario')
     if su =='1':
          nome = input('Informe o nome: ')
          sobrnome =input('Informe o sobrenome: ')
          email = input('Informe o email: ')
-         cpf = input('Informe o CPF: ')
+         cpf = input('Informe o cpf: ')
          senha = input('Informe a senha: ')
          confirma_senha = input('Confirme a senha: ')
-         setor = input('Setor: ')
+         setor = input('setor')
          venda = 0
 
          if senha == confirma_senha:
             user = Gerente(nome,sobrnome,email, cpf, senha, setor, venda)
-            print(f'Usuário {user.nome_comleto()} criado com sucesso!')
+            print(f'Usuario {user.nome_comleto()} criado com sucesso!')
             print(user.__dict__)
+            return user
          else:
-            print('As senhas digitadas estão diferentes.')
+            print('Senha não confere...')
             exit(42)
-    elif su =='2':
+    if su =='2':
 
-        if su == '1':
+        if su == '2':
             nome = input('Informe o nome: ')
             sobrnome = input('Informe o sobrenome: ')
             email = input('Informe o email: ')
-            cpf = input('Informe o CPF: ')
+            cpf = input('Informe o cpf: ')
             senha = input('Informe a senha: ')
             confirma_senha = input('Confirme a senha: ')
-            cargo = input('Cargo: ')
+            cargo = input('cargo')
             venda = 0
 
             if senha == confirma_senha:
-                user = Gerente(nome, sobrnome, email, cpf, senha, cargo, venda)
-                print(f'Usuário {user.nome_comleto()} criado com sucesso!')
+                user = Funcionario(nome, sobrnome, email, cpf, senha, cargo, venda)
+                print(f'Usuario {user.nome_comleto()} criado com sucesso!')
                 print(user.__dict__)
+                return user
             else:
-                print('As senhas digitadas estão diferentes.')
+                print('Senha não confere...')
                 exit(42)
+
     else:
-        print('Ppção inválida!')
+        print('opção invalida!')
 
 def realiza_venda():
-    pass
+    data = input('digite a data: ')
+    hora = int(input('horario: '))
+    cliente = input('cliente: ')
+    vendedor = int(input('vendedor: '))
+
+    venda = Venda(data,hora,cliente,vendedor)
+    print(f'Venda iniciada!')
+    print(venda.__dict__)
 
 def cadastra_cliente():
     nome = input('Informe o nome: ')
     sobrnome = input('Informe o sobrenome: ')
     email = input('Informe o email: ')
-    cpf = input('Informe o CPF: ')
+    cpf = input('Informe o cpf: ')
     compra = 0
     c = Cliente(nome,sobrnome, email, cpf, compra)
-    print(f'Usuário {c.nome_comleto()} criado com sucesso!')
+    print(f'Usuario {c.nome_comleto()} Criado com sucesso!')
     print(c.__dict__)
+    return c
 
 def altera_cliente(c):
     print('O que deseja alterar?'
-          '\n1 - Atualizar nome'
-          '\n2 - Atualizar sobrenome'
-          '\n3 - Atualizar email'
-          '\n4 - Atualizar CPF')
-    op = input('Digite o número da operação: ')
+          '\n 1 - Atualizar nome'
+          '\n 2 - Atualizar sobrenome'
+          '\n 3 - Atualizar email'
+          '\n 4 - Atualizar cpf')
+    op = input('Digite o número da operação')
     if op == '1':
-       nnome = (input('Digite o novo nome: '))
+       nnome = (input('Digite o novo nome'))
        c.nome = nnome
-    elif op == '2':
-       nsobrenome = (input('Digite o novo sobrenome: '))
+    if op == '2':
+       nsobrenome = (input('Digite o novo nome'))
        c.sobrenome = nsobrenome
-    elif op == '3':
-       nemail = (input('Digite o novo email: '))
+    if op == '3':
+       nemail = (input('Digite o novo nome'))
        c.email = nemail
-    elif op == '4':
-       ncpf = (input('Digite o novo CPF: '))
+    if op == '4':
+       ncpf = (input('Digite o novo nome'))
        c.cpf = ncpf
 
 def visualiza_usuario(user):
@@ -419,17 +467,146 @@ def visualiza_produto(produto):
 def visualiza_cliente(user):
     Cliente.mostra_cliente(user)
 
+def delete_usuario(func):
+    f = input('Qual qual Funcionario será deletado?')
+    if f in func:
+        func.pop(f)
+        print(f'Funcionario deletado!')
+
+def delete_cliente(c_cadastrados):
+    c = input('Qual qual cliente será deletado?')
+    if c in c_cadastrados:
+        c_cadastrados.pop(c)
+        print(f'Produto deletado!')
+
+def delete_produto(estoque):
+    item = input('Qual qual produto será deletado?')
+    if item in estoque:
+        estoque.pop(item)
+        print(f'Produto deletado!')
+
+
 if __name__ == '__main__':
 #----------------------------------------------Produtos-------------------------------------------------------
-   p1 = Produto('Mousepad', 4.99, 789456123, 'Mouse pad com apoio para a mão', 2.49, 1)
-   p2 = Produto('Teclado', 4.99, 789455853, 'Teclado mecânico ', 2.49, 2)
-   p3 = Produto('Mouse', 4.99, 789452153, 'Mouse óptico sem fio', 2.49, 3)
-   p4 = Produto('Monitor', 4.99, 789485223, 'Monitor ASUS 1400X900', 2.49, 1)
-   p5 = Produto('Gabinete', 4.99, 789466743, 'Gabinete full tower', 2.49, 1)
-   p6 = Produto('Microfone', 4.99, 789459633, 'Microfone de mesa', 2.49, 2)
+   p1 = Produto('Mousepad', 10.99, 7891099, 'Mouse pad com apoio para a mão', 2.49, 1)
+   p2 = Produto('Teclado', 299.99, 78929999, 'Teclado mecanico ', 2.49, 2)
+   p3 = Produto('Mouse', 89.99, 7898999, 'Mouse optico sem fio', 2.49, 3)
+   p4 = Produto('Monitor', 499.99, 789499.99, 'Monitor asus 1400X900', 2.49, 1)
+   p5 = Produto('Gabinete', 199.99, 78919999, 'gabinete grande', 2.49, 1)
+   p6 = Produto('Microfone', 59.99, 7895999, 'Microfone de mesa', 2.49, 2)
 #---------------------------------------------Usuarios---------------------------------------------------------
-   #g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945','123456','Vendedor',0)
-   #f1 = Funcionario('João','Batista','jao@gmail.com','65478932145','789456',1,0)
-#---------------------------------------------Cliente----------------------------------------------------------
-   c1 = Cliente('Juliana', 'Pereira', 'ju@gmail.com', '45696325814', 0)
-#--------------------------------------------------------------------------------------------------------------
+   g1 = Gerente('Italo','Vinicius','cefe@gmail.com','12345678945','123456','Vendedor',0)
+   f1 = Funcionario('João','Batista','jao@gmail.com','65478932145','789456',1,0)
+#---------------------------------------------Clientes----------------------------------------------------------
+   c1 = Cliente('Juliana','Pereira','ju@gmail.com','45696325814',0)
+#----------------------------------------------Vendas----------------------------------------------------------------
+   v1 = Venda('20/05/2020','13:50',c1.__dict__['_Pessoa__nome'],f1)
+#--------------------------------------------------------------------------------------------------------
+   estoque = [p1.__dict__,p2.__dict__,p3.__dict__,p4.__dict__,p5.__dict__,p6.__dict__]
+   func = [f1,g1]
+   c_cadastrados =[c1]
+#-------------------------------------------------------Menu--------------------------------------------------------
+   while True:
+       r = menu()
+       if r =='1':
+           try:
+               estoque.append(cadastra_produto())
+           except:
+               print('Erro ao cadastrar, por favor tente mais tarde!')
+#------------------------------------------------------------------------------------------------------
+       if r =='2':
+           try:
+               func.append(cadastra_usuario())
+           except:
+               print('Erro ao cadastrar, por favor tente mais tarde!')
+#------------------------------------------------------------------------------------------------------
+       elif r == '3':
+           try:
+               c_cadastrados.append(cadastra_cliente())
+           except:
+               print('Erro ao cadastrar, por favor tente mais tarde!')
+#------------------------------------------------------------------------------------------------------
+       elif r == '4':
+           opp = input('Qual produto deseja alterar?')
+           if opp in estoque:
+                altera_produto(opp)
+           else:
+               opp = input('Produto não cadastrado, deseja cadastra-lo?').upper()
+               if opp == 'S':
+                   cadastra_produto()
+#------------------------------------------------------------------------------------------------------
+       elif r == '5':
+           opau = input('Qual usuario deseja alterar?')
+           if opau in func:
+               print('Erro 400')
+           else:
+               opu = input('Usuario não cadastrado, deseja cadastra-lo?').upper()
+               if opu == 'S':
+                   cadastra_usuario()
+#------------------------------------------------------------------------------------------------------
+       elif r == '6':
+           opac = input('Qual cliente deseja alterar?')
+           if opac in estoque:
+               altera_cliente(opac)
+           else:
+               opc =input('cliente não cadastrado, deseja cadastra-lo?').upper()
+               if opc == 'S':
+                   cadastra_cliente()
+#------------------------------------------------------------------------------------------------------
+       elif r == '7':
+           opvp1 = input('\n [1]-Mostrar produto especifico'
+                         '\n [2]-Mostrar Todos os produtos')
+           if opvp1 == '1':
+               opvp2 = input('Qual produto deseja visualizar?')
+               if opvp2 in estoque:
+                    altera_cliente(opvp2)
+               else:
+                   opp = input('Produto não cadastrado, deseja cadastra-lo?').upper()
+                   if opp == 'S':
+                       cadastra_produto()
+           if opvp1 == '2':
+               for p in estoque:
+                   print(p)
+#------------------------------------------------------------------------------------------------------
+       elif r == '8':
+           opvp1 = input('\n [1]-Mostrar usuario especifico'
+                         '\n [2]-Mostrar Todos os usuarios')
+           if opvp1 == '1':
+               opvp2 = input('Qual usuario deseja visualizar?')
+               if opvp2 in estoque:
+                    visualiza_usuario(opvp2)
+               else:
+                   opu = input('Usuario não cadastrado, deseja cadastra-lo?').upper()
+                   if opu == 'S':
+                       cadastra_usuario()
+
+           if opvp1 == '2':
+               for u in func:
+                   print(u.__dict__)
+#------------------------------------------------------------------------------------------------------
+       elif r == '9':
+           opvc1 = input('\n [1]-Mostrar cliente especifico'
+                         '\n [2]-Mostrar Todos os cliente')
+           if opvc1 == '1':
+               opvc2 = input('Qual cliente deseja visualizar?')
+               if opvc2 in c_cadastrados:
+                   visualiza_cliente(opvc2)
+               else:
+                   opc = input('cliente não cadastrado, deseja cadastra-lo?').upper()
+                   if opc == 'S':
+                       cadastra_cliente()
+           if opvc1 == '2':
+               for c in c_cadastrados:
+                   print(c.__dict__)
+#--------------------------------------------------------------------------------------------------------------------
+       elif r == '10':
+           delete_produto(estoque)
+#-------------------------------------------------------------------------------------------------------------------------
+       elif r == '11':
+           delete_usuario(func)
+#------------------------------------------------------------------------------------------------------------------
+       elif r == '12':
+           delete_cliente(c_cadastrados)
+#------------------------------------------------------------------------------------------------------------------------------
+       elif r =='sair':
+           break
